@@ -1,0 +1,6 @@
+*.dSYM/
+
+test-exe
+libtest-lib.dylib
+*.o
+compile_commands.json
