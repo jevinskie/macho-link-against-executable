@@ -20,8 +20,8 @@ compile_commands.json:
 	bear -- $(MAKE) -B -f $(MAKEFILE_LIST) RUNNING_BEAR=1
 	$(MAKE) -f $(MAKEFILE_LIST) clean-targets
 
-test-exe: test-exe.c test-exe.h test-lib.h
-	$(CC) -o $@ test-exe.c $(C_FLAGS)
+test-exe: test-exe.c test-exe.h test-lib.h libtest-lib.dylib
+	$(CC) -o $@ test-exe.c $(C_FLAGS) libtest-lib.dylib
 
 libtest-lib.dylib: test-lib.c test-lib.h test-exe.h
-	$(CC) -shared -o $@ test-lib.c $(C_FLAGS)
+	$(CC) -shared -o $@ test-lib.c $(C_FLAGS) tbds/test-exe.tbd
