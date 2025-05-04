@@ -25,14 +25,14 @@ compile_commands.json:
 test-exe: test-exe.c test-exe.h test-lib.h libtest-lib.dylib
 	$(CC) -o $@ test-exe.c $(C_FLAGS) libtest-lib.dylib
 
-libtest-lib.dylib: test-lib.c test-lib.h test-exe.h
+libtest-lib.dylib: test-lib.c test-lib.h test-exe.h tbds/test-exe.tbd
 	$(CC) -shared -o $@ test-lib.c $(C_FLAGS) tbds/test-exe.tbd
 
 stest-exe: stest-exe.c stest-exe.h stest-lib.h libstest-lib.dylib
 	$(CC) -o $@ stest-exe.c $(C_FLAGS) libstest-lib.dylib
 
-libstest-lib.dylib: stest-lib.c stest-lib.h stest-exe.h
-	$(CC) -shared -o $@ stest-lib.c $(C_FLAGS) tbds/stest-exe.tbd
+libstest-lib.dylib: stest-lib.c stest-lib.h stest-exe.h libstest-shim.dylib tbds/stest-exe.tbd
+	$(CC) -shared -o $@ stest-lib.c $(C_FLAGS) libstest-shim.dylib tbds/stest-exe.tbd
 
-libstest-shim.dylib: stest-shim.c
-	$(CC) -shared -o $@ stest-shim.c $(C_FLAGS)
+libstest-shim.dylib: stest-shim.c tbds/stest-exe.tbd
+	$(CC) -shared -o $@ stest-shim.c $(C_FLAGS) -Wno-empty-translation-unit -reexport_library tbds/stest-exe.tbd
