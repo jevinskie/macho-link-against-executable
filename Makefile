@@ -1,6 +1,6 @@
 TARGETS := test-exe libtest-lib.dylib stest-exe libstest-lib.dylib libstest-shim.dylib
 
-C_CXX_FLAGS := -g -Wall -Wextra -Wpedantic
+C_CXX_FLAGS := -g -Wall -Wextra -Wpedantic -fvisibility=hidden
 C_FLAGS := $(C_CXX_FLAGS) -std=gnu2x
 
 all: $(TARGETS)
