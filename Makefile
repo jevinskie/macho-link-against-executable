@@ -32,7 +32,7 @@ stest-exe: stest-exe.c stest-exe.h stest-lib.h libstest-lib.dylib
 	$(CC) -o $@ stest-exe.c $(C_FLAGS) libstest-lib.dylib
 
 libstest-lib.dylib: stest-lib.c stest-lib.h stest-exe.h libstest-shim.dylib tbds/stest-exe.tbd
-	$(CC) -shared -o $@ stest-lib.c $(C_FLAGS) libstest-shim.dylib tbds/stest-exe.tbd
+	$(CC) -shared -o $@ stest-lib.c $(C_FLAGS) libstest-shim.dylib -L tbds
 
 libstest-shim.dylib: stest-shim.c tbds/stest-exe.tbd
 	$(CC) -shared -o $@ stest-shim.c $(C_FLAGS) -Wno-empty-translation-unit -reexport_library tbds/stest-exe.tbd
